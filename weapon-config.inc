@@ -399,6 +399,8 @@ forward OnPlayerPrepareDeath(playerid, animlib[32], animname[32], &anim_lock, &r
 forward OnPlayerDeathFinished(playerid, bool:cancelable);
 // When a shot or damage given is rejected
 forward OnRejectedHit(playerid, hit[E_REJECTED_HIT]);
+// Custom function for the server Alex's Hideout
+forward WC_OnSetPlayerHealth(playerid, Float:health);
 
 #if WC_CUSTOM_VENDING_MACHINES
 	// When a player is about to use a vending machine
@@ -1737,7 +1739,7 @@ stock WC_SetPlayerHealth(playerid, Float:health, Float:armour = -1.0)
 		s_PlayerHealth[playerid] = health;
 		UpdateHealthBar(playerid, true);
 	}
-
+	CallLocalFunction("WC_OnSetPlayerHealth", "if", playerid, health);
 	return 1;
 }
 
