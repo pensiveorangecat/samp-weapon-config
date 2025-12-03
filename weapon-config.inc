@@ -399,8 +399,10 @@ forward OnPlayerPrepareDeath(playerid, animlib[32], animname[32], &anim_lock, &r
 forward OnPlayerDeathFinished(playerid, bool:cancelable);
 // When a shot or damage given is rejected
 forward OnRejectedHit(playerid, hit[E_REJECTED_HIT]);
-// Custom function for the server Alex's Hideout
+
+// Custom functions for the server Alex's Hideout
 forward WC_OnSetPlayerHealth(playerid, Float:health);
+forward WC_OnUpdateHealthBar(playerid, Float:health);
 
 #if WC_CUSTOM_VENDING_MACHINES
 	// When a player is about to use a vending machine
@@ -5229,6 +5231,8 @@ static UpdateHealthBar(playerid, bool:force = false, bool:forcesync = false)
 
 	SetFakeHealth(playerid, health);
 	SetFakeArmour(playerid, armour);
+
+	CallLocalFunction("WC_OnUpdateHealthBar", "if", playerid, health);
 
 	if (forcesync || WC_IsPlayerPaused(playerid)) {
 		UpdateSyncData(playerid);
